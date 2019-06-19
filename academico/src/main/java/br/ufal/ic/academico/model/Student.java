@@ -2,6 +2,7 @@ package br.ufal.ic.academico.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.persistence.*;
 
@@ -48,10 +49,42 @@ public class Student {
 			System.out.println("No students yet registrated.");
 			return;
 		}
-		for (Student s : allUniversityStudents) {
-			log.info("- Student Registration: "+s.getRegistration());
-			log.info("- Name: "+s.getName());
-			log.info("- Course: "+s.getCourse().getName());
+		for (int i = 0; i < allUniversityStudents.size(); i++) {
+			log.info("("+(i+1)+") - "+allUniversityStudents.get(i).getName());
+		}
+		Student student = new Student();
+		try {
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner(System.in);
+			int studentArrayPosition = scanner.nextInt();
+			scanner.nextLine();
+			student = allUniversityStudents.get(studentArrayPosition - 1);
+		} catch(ArrayIndexOutOfBoundsException e) {
+			log.error("Can't access this student, try again next time.");
+		}
+		log.info("Student got with success!");
+		Course course = student.getCourse();
+		ArrayList<Subject> subjectsFromCourse = (ArrayList<Subject>) course.getCourseSubjects();
+		for (int i = 0; i < subjectsFromCourse.size(); i++) {
+			log.info("("+(i+1)+") - "+subjectsFromCourse.get(i).getName());
+		}
+		Subject subject = new Subject();
+		try {
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner(System.in);
+			int subjectArrayPosition = scanner.nextInt();
+			scanner.nextLine();
+			subject = subjectsFromCourse.get(subjectArrayPosition - 1);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			log.error("Can't access this subject, try again next time.");
+		}
+		log.info("Subject got with success!");
+		if (student.getActualSubjects().contains(subject)) {
+			log.error("This student is already registered in this subject.");
+			return;
+		} else {
+			student.getActualSubjects().add(subject);
+			log.error("Subject registration completed with success!");
 		}
 	}
 	

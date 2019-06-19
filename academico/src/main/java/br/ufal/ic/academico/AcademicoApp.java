@@ -2,8 +2,6 @@ package br.ufal.ic.academico;
 
 import br.ufal.ic.academico.model.*;
 
-import java.util.ArrayList;
-
 import org.hibernate.SessionFactory;
 import br.ufal.ic.academico.exemplos.Database;
 import br.ufal.ic.academico.exemplos.MyResource;
@@ -34,31 +32,16 @@ public class AcademicoApp extends Application<ConfigApp> {
     	
         final Database db = new Database(sessionFactory);
         Course course = new Course("Ciencia da Computacao", "Graduacao");
-
+        Subject subject = new Subject("P1", "123123", 0, 1);
+        course.setOneSubject(subject);
+        Student s = new Student("Guilherme", course);
         final MyResource resource = new MyResource();
         
 //        sessionFactory.getCurrentSession().beginTransaction();
+        Department d = new Department("Departamento de Ciencia da Computacao", course);
 //        db.persist(Course.class, course);
-//        sessionFactory.getCurrentSession().getTransaction().commit();
-//        
-//        sessionFactory.getCurrentSession().beginTransaction();
-//        db.persist(Student.class, new Student("17210810", "Guilherme", course));
-//        sessionFactory.getCurrentSession().getTransaction().commit();
-//        
-//        sessionFactory.getCurrentSession().beginTransaction();
-//        db.persist(Student.class, new Student("17210810", "Mineirin", course));
-//        sessionFactory.getCurrentSession().getTransaction().commit();
-//        
-//        sessionFactory.getCurrentSession().beginTransaction();
-//        ArrayList<Student> arr = (ArrayList<Student>) db.listStudents(Course.class, course);
-//        for (Student a : arr) {
-//        	System.out.println(a.getId());
-//        }
-//        sessionFactory.getCurrentSession().beginTransaction();
-//        db.persist(Course.class, course);
-        Student s = new Student("Guilherme", course);
 //        db.persist(Student.class, s);
-//        System.out.println(s.getName());
+//        db.persist(Department.class, d);
 //        sessionFactory.getCurrentSession().getTransaction().commit();
         s.registrationProcessing(sessionFactory, db, "17210812");
         environment.jersey().register(resource);

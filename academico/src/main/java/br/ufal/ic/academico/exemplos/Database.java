@@ -30,12 +30,16 @@ public class Database extends AbstractDAO<Object> {
     }
     
     @SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T> List<Student> listStudents(Class<T> clazz, T entity) throws HibernateException {
-        log.debug("listStudents: {}", clazz.getSimpleName());
-        
-        List<Object> result = super.list(query("from Student where "+clazz.getSimpleName().toLowerCase()+" = ?")
-        		.setParameter(0, entity));
-        
+	public <T> List<Student> listStudents(Department department) throws HibernateException {
+        log.debug("Listing Students from Department name is: {}", department.getName());
+        List<Object> result = super.list(query("from Student where = ?").setParameter(0, department));
+        return new ArrayList(result);
+    }
+    
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public <T> List<Student> listStudents(Secretariat secretariat) throws HibernateException {
+        log.debug("Listing Students from a secretariat and department name is: {}", secretariat.getDepartment().getName());
+        List<Object> result = super.list(query("from Student where = ?").setParameter(0, secretariat));
         return new ArrayList(result);
     }
     

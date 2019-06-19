@@ -17,15 +17,17 @@ public class Subject {
 	@OneToMany
 	private List<Subject> requirements = new ArrayList<Subject>();
 	private int coursePeriod;
-	@ManyToOne
-	private Course course;
+//	@ManyToOne
+//	private Course course;
 	
-	public Subject(String name, String code, int associatedCredits, int coursePeriod, Course course) {
+	public Subject() {	
+	}
+	
+	public Subject(String name, String code, int associatedCredits, int coursePeriod) {
 		this.name = name;
 		this.code = code;
 		this.associatedCredits = associatedCredits;
 		this.coursePeriod = coursePeriod;
-		this.course = course;
 	}
 	
 	public Long getId() { return id; }
